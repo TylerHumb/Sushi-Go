@@ -1,4 +1,4 @@
-package Cards;
+package main.Cards;
 
 public abstract class Card {
     String Name;

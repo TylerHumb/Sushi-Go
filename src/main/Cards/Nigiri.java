@@ -1,4 +1,4 @@
-package Cards;
+package main.Cards;
 
 public class Nigiri extends Card {
     public Nigiri(String name,int points){

@@ -1,4 +1,4 @@
-package Cards;
+package main.Cards;
 
 public class Appetiser extends Card{
     //amount dictates how many of a card is needed to get points

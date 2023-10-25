@@ -1,4 +1,4 @@
-package Cards;
+package main.Cards;
 
 public class Dessert extends Card {
     int Amount;

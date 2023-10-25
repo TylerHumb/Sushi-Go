@@ -1,4 +1,6 @@
-import Cards.Card;
+package main;
+
+import main.Cards.Card;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package Cards;
+package main.Cards;
 
 public class Roll extends Card{
     //use rollvalue to dictate if a roll is worth more than one point
