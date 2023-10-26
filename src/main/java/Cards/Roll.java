@@ -19,4 +19,16 @@ public class Roll extends Card {
     public void setRollValue(int rollValue){
         RollValue = rollValue;
     }
+
+    @Override
+    public String toString() {
+        return "Roll{" +
+                "RollValue=" + RollValue +
+                ", SecondPoints=" + SecondPoints +
+                ", LastPoints=" + LastPoints +
+                ", Name='" + Name + '\'' +
+                ", Points=" + Points +
+                ", Value=" + Value +
+                '}';
+    }
 }

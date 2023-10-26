@@ -18,4 +18,15 @@ public class Appetiser extends Card {
     public Appetiser(String name){
         Name = name;
     }
+
+    @Override
+    public String toString() {
+        return "Appetiser{" +
+                "Amount=" + Amount +
+                ", EelDeduction=" + EelDeduction +
+                ", Name='" + Name + '\'' +
+                ", Points=" + Points +
+                ", Value=" + Value +
+                '}';
+    }
 }

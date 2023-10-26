@@ -19,4 +19,14 @@ public class Dessert extends Card {
         LastPoints = (int) lastPoints;
         Points = points;
     }
+
+    @Override
+    public String toString() {
+        return "Dessert{" +
+                "LastPoints=" + LastPoints +
+                ", Name='" + Name + '\'' +
+                ", Points=" + Points +
+                ", Value=" + Value +
+                '}';
+    }
 }

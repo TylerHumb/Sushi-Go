@@ -7,4 +7,13 @@ public class Nigiri extends Card {
         Name = name;
         Points = points;
     }
+
+    @Override
+    public String toString() {
+        return "Nigiri{" +
+                "Name='" + Name + '\'' +
+                ", Points=" + Points +
+                ", Value=" + Value +
+                '}';
+    }
 }

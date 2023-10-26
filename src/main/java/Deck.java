@@ -14,12 +14,11 @@ public class Deck {
 
     public Deck(int playercount){
         PlayerCount = playercount;
+        PossibleCards = new ArrayList<>();
+        UsedCards = new ArrayList<>();
     }
 
     public ArrayList<Card> GeneratePossible(){
-        PossibleCards.add(new Nigiri("egg nigiri",1));
-        PossibleCards.add(new Nigiri("salmon nigiri",1));
-        PossibleCards.add(new Nigiri("squid nigiri",1));
         PossibleCards.add(new Roll("maki roll",0,6,3,0));
         PossibleCards.add(new Roll("temaki",1,4,0,-4));
         PossibleCards.add(new Appetiser("dumpling"));
@@ -36,10 +35,10 @@ public class Deck {
         return PossibleCards;
     }
     public void GenerateUsed(Roll roll,Appetiser appetiser1,Appetiser appetiser2,Appetiser appetiser3,Special special1,Special special2, Dessert dessert){
-        switch (roll.getName()){
-            case "maki roll":
-                AddMaki(roll);
-            case "temaki":
+        AddNigiri();
+        if (roll.getName().equals("maki roll")) {
+            AddMaki(roll);
+        }else{
                 addcardtoused(roll,12);
         }
         if (!appetiser1.getName().equals("onigiri")){
@@ -80,36 +79,41 @@ public class Deck {
         }
     }
     private void AddMaki(Roll roll){
-        roll.setRollValue(1);
-        addcardtoused(roll,4);
-        roll.setRollValue(2);
-        addcardtoused(roll,5);
+        Roll maki1 = new Roll("maki roll",1,6,3,0);
+        addcardtoused(maki1,4);
+        Roll maki2 = new Roll("maki roll",2,6,3,0);
+        addcardtoused(maki2,5);
         roll.setRollValue(3);
         addcardtoused(roll,3);
     }
     private void AddOnigiri(Appetiser appetiser){
         //tobeadded
     }
-    private ArrayList<ArrayList<Card>> DealHands(){
+    private void AddNigiri(){
+        addcardtoused(new Nigiri("egg nigiri",1),4);
+        addcardtoused(new Nigiri("salmon nigiri",2),5);
+        addcardtoused(new Nigiri("squid nigiri",3),3);
+    }
+    private ArrayList<ArrayList<Card>> DealHands() {
         int cardcount;
         ArrayList<ArrayList<Card>> hands = new ArrayList<>();
         if (PlayerCount == 2 || PlayerCount == 3) {
             cardcount = 10;
-        } else if (PlayerCount == 4 || PlayerCount == 5){
+        } else if (PlayerCount == 4 || PlayerCount == 5) {
             cardcount = 9;
-        }
-        else if (PlayerCount == 6 || PlayerCount == 7){
+        } else if (PlayerCount == 6 || PlayerCount == 7) {
             cardcount = 8;
         } else cardcount = 7;
-        for (int i = PlayerCount; i > 0; i--){
+        for (int i = PlayerCount; i > 0; i--) {
             ArrayList<Card> hand = new ArrayList<>();
-            for (int c = cardcount; c > 0; c--){
+            for (int c = cardcount; c > 0; c--) {
                 hand.add(DrawCard());
             }
             hands.add(hand);
         }
         return hands;
     }
+
     //Picks a card from the deck and removes it, doesnt ruin the deck as the card will be added back later
     private Card DrawCard(){
         Random rand = new Random();
