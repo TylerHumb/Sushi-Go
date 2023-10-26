@@ -1,6 +1,8 @@
-package main.Cards;
+package Cards;
 
-public class Roll extends Card{
+import Cards.Card;
+
+public class Roll extends Card {
     //use rollvalue to dictate if a roll is worth more than one point
     int RollValue;
     int SecondPoints;

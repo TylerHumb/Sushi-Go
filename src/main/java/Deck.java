@@ -1,6 +1,4 @@
-package main;
-
-import main.Cards.*;
+import Cards.*;
 
 import java.util.ArrayList;
 import java.util.Random;

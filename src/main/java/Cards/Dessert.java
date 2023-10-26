@@ -1,4 +1,6 @@
-package main.Cards;
+package Cards;
+
+import Cards.Card;
 
 public class Dessert extends Card {
     int Amount;

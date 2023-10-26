@@ -1,6 +1,6 @@
-package main.Cards;
+package Cards;
 
-public class Appetiser extends Card{
+public class Appetiser extends Card {
     //amount dictates how many of a card is needed to get points
     int Amount;
     int EelDeduction;
