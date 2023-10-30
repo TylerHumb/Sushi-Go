@@ -1,3 +1,5 @@
+package Cards;
+
 public abstract class Card {
     String Name;
     int Points;
@@ -8,5 +10,7 @@ public abstract class Card {
     public void setPoints(int points) {
         Points = points;
     }
-
+    public String getName(){
+        return Name;
+    }
 }
