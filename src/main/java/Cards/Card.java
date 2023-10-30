@@ -13,4 +13,8 @@ public abstract class Card {
     public String getName(){
         return Name;
     }
+
+    public int getPoints() {
+        return Points;
+    }
 }

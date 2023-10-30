@@ -3,7 +3,7 @@ package Cards;
 import Cards.Card;
 
 public class Dessert extends Card {
-    int Amount;
+    int Amount = 0;
     int LastPoints;
     //TODO find a way to implement Fruit as a dessert
     //below is for green tea ice cream
@@ -18,6 +18,9 @@ public class Dessert extends Card {
         Name = name;
         LastPoints = (int) lastPoints;
         Points = points;
+    }
+    public int getAmount(){
+        return Amount;
     }
 
     @Override
