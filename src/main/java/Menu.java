@@ -2,6 +2,7 @@ import Cards.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class Menu {
@@ -32,7 +33,7 @@ public class Menu {
         }
         selectSushi();
         deck.GenerateUsed(roll,appetiser1,appetiser2,appetiser3,special1,special2,dessert);
-
+        round1();
     }
     public void round1(){
         ArrayList<ArrayList<Card>> hands = deck.Round1();
@@ -42,6 +43,7 @@ public class Menu {
             bot.Assignhand(hands.get(0));
             hands.remove(0);
         }
+        playOutCards();
     }
 
 
@@ -103,17 +105,86 @@ public class Menu {
         }
          return playerInputCollector(list.size() +1,1,scan);
     }
+    public int printforplaying(ArrayList<Card> list){
+        for (int i = 0;i <list.size();i++){
+            System.out.println(i+1 + "."+list.get(i).getName());
+        }
+        System.out.println("Enter 0 to see played cards");
+        return playerInputCollector(list.size() +1,0,scan);
+    }
 
     public void playOutCards(){
         while (player.getHand().size() != 0){
-            HashMap<Integer,String> Playedcards = new HashMap<>();
+            Map<Integer,String> Playedcards = new HashMap<>();
             for (Bot bot:bots){
                 Playedcards.put(bot.getNum(),bot.PlayCard().getName());
             }
-            int playeroption = printoptions(player.getHand());
+            int playeroption = printforplaying(player.getHand()) -1;
+            if (playeroption == -1){
+                for (Map.Entry<Card,Integer> cards: Scorer.generatehashmap(player.PlayedCards).entrySet()){
+                    System.out.println(cards.getKey().getName() + " amount: "+cards.getValue());
+                }
+                playeroption = playerInputCollector(player.getHand().size() +1,1,scan) -1;
+            }
+            Card playedcard = player.PlayCard(playeroption);
+            System.out.println("Player Played " + playedcard.getName());
+            for(Map.Entry<Integer,String> entry:Playedcards.entrySet()){
+                System.out.println("Bot " + entry.getKey() + " Played "+entry.getValue());
+            }
+            if (appetiser1.getName().equals("miso soup")||appetiser2.getName().equals("miso soup")||appetiser3.getName().equals("miso soup")){
+                misocheck(Playedcards,playedcard);
+            }
+            rotateHands();
         }
     }
     public void rotateHands(){
-
+        ArrayList<Card> savedhand = player.getHand();
+        for (Bot bot:bots){
+            ArrayList<Card> temp = bot.getHand();
+            bot.Assignhand(savedhand);
+            savedhand = temp;
+        }
+        player.Assignhand(savedhand);
+    }
+    public void misocheck(Map<Integer,String> Playedcards,Card playercard){
+        boolean miso = false;
+        boolean failed = false;
+        for(Map.Entry<Integer,String> entry:Playedcards.entrySet()){
+            if (entry.getValue().equals("miso soup")&& !miso){
+                miso = true;
+            }else if (entry.getValue().equals("miso soup")){
+                failed = true;
+               for (Map.Entry<Integer,String> entry1:Playedcards.entrySet()){
+                   if (entry1.getValue().equals("miso soup")){
+                       removemiso(entry1.getKey());
+                   }
+                   break;
+               }
+            }
+        }
+        if (playercard.getName().equals("miso soup")&& miso){
+            failed = true;
+            for (int i = player.PlayedCards.size(); i > 0; i--){
+                if (player.PlayedCards.get(i - 1).getName().equals("miso soup")){
+                    player.PlayedCards.remove(i -1);
+                    break;
+                }
+            }
+        }
+        if (failed){
+            System.out.println("2 or more player's played miso soup!");
+        }
+    }
+    public void removemiso(int botnum){
+        for (Bot bot:bots){
+            if (bot.getNum() == botnum){
+                for (int i = bot.PlayedCards.size(); i > 0; i--){
+                    if (bot.PlayedCards.get(i - 1).getName().equals("miso soup")){
+                        bot.PlayedCards.remove(i -1);
+                        break;
+                    }
+                }
+            }
+        }
     }
 }

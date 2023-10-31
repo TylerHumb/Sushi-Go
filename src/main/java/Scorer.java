@@ -2,13 +2,14 @@ import Cards.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Scorer {
     static int EdamameCount;
     static int mostcards;
-    public static HashMap<Card,Integer> generatehashmap(ArrayList<Card> playedcards){
+    public static Map<Card,Integer> generatehashmap(ArrayList<Card> playedcards){
         mostcards = 0;
-        HashMap<Card,Integer> cardsByCard = new HashMap<>();
+        Map<Card,Integer> cardsByCard = new HashMap<>();
         //generates a hashmap showing what cards are present in the played cards and their amount
         for (Card card:playedcards){
             if (cardsByCard.containsKey(card)){
@@ -21,7 +22,7 @@ public class Scorer {
     }
     public static int nonFinalScore(ArrayList<Card> playedcards){
         int runningCount = 0;
-        HashMap<Card,Integer> cardsByCard =generatehashmap(playedcards);
+        Map<Card,Integer> cardsByCard =generatehashmap(playedcards);
         for (Card card: cardsByCard.keySet()){
             if (card instanceof Nigiri){
                 runningCount += scoreNigiri((Nigiri)card,cardsByCard.get(card));
@@ -38,7 +39,7 @@ public class Scorer {
     }
     public static int finalScoring(ArrayList<Card> playedcards){
         int runningCount = nonFinalScore(playedcards);
-        HashMap<Card,Integer> cardsByCard = generatehashmap(playedcards);
+        Map<Card,Integer> cardsByCard = generatehashmap(playedcards);
         for(Card card: cardsByCard.keySet()){
             if (card instanceof Dessert){
                 runningCount += scoreDessert((Dessert) card,cardsByCard.get(card));
