@@ -38,7 +38,13 @@ public class Scorer {
     }
     public static int finalScoring(ArrayList<Card> playedcards){
         int runningCount = nonFinalScore(playedcards);
-
+        HashMap<Card,Integer> cardsByCard = generatehashmap(playedcards);
+        for(Card card: cardsByCard.keySet()){
+            if (card instanceof Dessert){
+                runningCount += scoreDessert((Dessert) card,cardsByCard.get(card));
+            }
+        }
+        return runningCount;
     }
 
     //TODO Check if this works for wasabi
@@ -100,8 +106,37 @@ public class Scorer {
         }
         throw new RuntimeException("Cannot score card");
     }
-    //has to call roll scoring normally
-    public static int[] scoreRolls(HashMap<Integer,Integer> playerscores,Roll roll){
-        return new int[];
+    //has to call roll scoring normally, returns a string of the players numbers
+    public static String[] scoreRolls(HashMap<Integer,Integer> playerscores,Roll roll){
+        int top = 0;
+        int second = 0;
+        //finds either the first and second place or first and last place, assigning the amounts to search for later
+        if (roll.getSecondPoints() != 0){
+            for (int i: playerscores.values()){
+                if (i > top){
+                    second = top;
+                    top = i;
+                }
+            }
+        } else {
+            for (int i: playerscores.values()){
+                if (i > top){
+                    top = i;
+                }
+                if(i < second){
+                    second = i;
+                }
+            }
+        }
+        StringBuilder winners = new StringBuilder();
+        StringBuilder losers = new StringBuilder();
+        for (int i: playerscores.keySet()){
+            if (playerscores.get(i) == top){
+                winners.append(i);
+            } else if (playerscores.get(i) == second) {
+                losers.append(i);
+            }
+        }
+        return new String[]{winners.toString(), losers.toString()};
     }
 }

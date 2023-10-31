@@ -20,6 +20,14 @@ public class Roll extends Card {
         RollValue = rollValue;
     }
 
+    public int getSecondPoints() {
+        return SecondPoints;
+    }
+
+    public int getLastPoints() {
+        return LastPoints;
+    }
+
     @Override
     public String toString() {
         return "Roll{" +
