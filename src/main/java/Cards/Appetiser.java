@@ -3,7 +3,7 @@ package Cards;
 public class Appetiser extends Card {
     //amount dictates how many of a card is needed to get points
     int Amount;
-    int EelDeduction;
+    int EelDeduction = 0;
     public Appetiser(String name,int amount,int points){
         Name = name;
         Amount = amount;
@@ -17,6 +17,13 @@ public class Appetiser extends Card {
     }
     public Appetiser(String name){
         Name = name;
+    }
+
+    public int getAmount() {
+        return Amount;
+    }
+    public int getEelDeduction(){
+        return EelDeduction;
     }
 
     @Override

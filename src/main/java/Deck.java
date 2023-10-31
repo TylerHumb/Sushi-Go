@@ -30,7 +30,7 @@ public class Deck {
         PossibleCards.add(new Appetiser("tofu"));
         PossibleCards.add(new Special("tea"));
         PossibleCards.add(new Special("wasabi"));
-        PossibleCards.add(new Dessert("green tea ice cream",4,10));
+        PossibleCards.add(new Dessert("green tea ice cream",4,12));
         PossibleCards.add(new Dessert("pudding",6,6));
         return PossibleCards;
     }
