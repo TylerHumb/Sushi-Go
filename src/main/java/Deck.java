@@ -34,6 +34,35 @@ public class Deck {
         PossibleCards.add(new Dessert("pudding",6,6));
         return PossibleCards;
     }
+    public ArrayList<Card> RollList(){
+        ArrayList<Card> rolls = new ArrayList<>();
+        rolls.add(new Roll("maki roll",0,6,3,0));
+        rolls.add(new Roll("temaki",1,4,0,-4));
+        return rolls;
+    }
+    public ArrayList<Card> appetiserList(){
+        ArrayList<Card> appetisers = new ArrayList<>();
+        appetisers.add(new Appetiser("dumpling"));
+        appetisers.add(new Appetiser("edamame"));
+        appetisers.add(new Appetiser("eel",2,7,3));
+        appetisers.add(new Appetiser("miso soup"));
+        appetisers.add(new Appetiser("sashimi",3,10));
+        appetisers.add(new Appetiser("tempura",2,5));
+        appetisers.add(new Appetiser("tofu"));
+        return appetisers;
+    }
+    public ArrayList<Card> specialList(){
+        ArrayList<Card> specials = new ArrayList<>();
+        specials.add(new Special("tea"));
+        specials.add(new Special("wasabi"));
+        return specials;
+    }
+    public ArrayList<Card> dessertList(){
+        ArrayList<Card> desserts = new ArrayList<>();
+        desserts.add(new Dessert("green tea ice cream",4,12));
+        desserts.add(new Dessert("pudding",6,6));
+        return desserts;
+    }
     public void GenerateUsed(Roll roll,Appetiser appetiser1,Appetiser appetiser2,Appetiser appetiser3,Special special1,Special special2, Dessert dessert){
         AddNigiri();
         if (roll.getName().equals("maki roll")) {
