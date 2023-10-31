@@ -83,8 +83,9 @@ public class Scorer {
                 default -> 15;
             };
         }
+        //miso is just worth 3 each
         if (card.getName().equals("miso soup")){
-            return card.getPoints();
+            return amount*3;
         }
         throw new RuntimeException("Cannot score card");
     }
@@ -119,6 +120,8 @@ public class Scorer {
                 }
             }
         } else {
+            // sets the score real high because second will now represent who is coming last
+            second = 100;
             for (int i: playerscores.values()){
                 if (i > top){
                     top = i;
