@@ -1,6 +1,7 @@
 import Cards.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Menu {
@@ -33,7 +34,15 @@ public class Menu {
         deck.GenerateUsed(roll,appetiser1,appetiser2,appetiser3,special1,special2,dessert);
 
     }
-
+    public void round1(){
+        ArrayList<ArrayList<Card>> hands = deck.Round1();
+        player.Assignhand(hands.get(0));
+        hands.remove(0);
+        for (Bot bot:bots){
+            bot.Assignhand(hands.get(0));
+            hands.remove(0);
+        }
+    }
 
 
     public int playerInputCollector(int maxnum,int minnum, Scanner scnr){
@@ -93,5 +102,18 @@ public class Menu {
             System.out.println(i+1 + "."+list.get(i).getName());
         }
          return playerInputCollector(list.size() +1,1,scan);
+    }
+
+    public void playOutCards(){
+        while (player.getHand().size() != 0){
+            HashMap<Integer,String> Playedcards = new HashMap<>();
+            for (Bot bot:bots){
+                Playedcards.put(bot.getNum(),bot.PlayCard().getName());
+            }
+            int playeroption = printoptions(player.getHand());
+        }
+    }
+    public void rotateHands(){
+
     }
 }
