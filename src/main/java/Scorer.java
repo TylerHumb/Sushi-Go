@@ -58,7 +58,9 @@ public class Scorer {
     public static int scoreAppetiser(Appetiser card, Integer amount){
         //checks if the card is edamame, to be added later
         if (card.getName().equals("edamame")){
-            EdamameCount += 1;
+            if (EdamameCount < 4) {
+                EdamameCount += 1;
+            }
             return 0;
         }
         if (card.getAmount() != 0){
@@ -95,7 +97,7 @@ public class Scorer {
         if (card.getName().equals("tea")){
             return mostcards*amount;
         }
-        throw new RuntimeException("Cannot score card");
+        return 0;
     }
 
     public static int scoreDessert(Dessert card, Integer amount){
@@ -109,11 +111,11 @@ public class Scorer {
         throw new RuntimeException("Cannot score card");
     }
     //has to call roll scoring normally, returns a string of the players numbers
-    public static String[] scoreRolls(HashMap<Integer,Integer> playerscores,Roll roll){
+    public static String[] calculateWinners(HashMap<Integer,Integer> playerscores,Roll roll){
         int top = 0;
         int second = 0;
         //finds either the first and second place or first and last place, assigning the amounts to search for later
-        if (roll.getSecondPoints() != 0){
+        if (roll.getSecondPoints() > 0){
             for (int i: playerscores.values()){
                 if (i > top){
                     second = top;
@@ -143,4 +145,64 @@ public class Scorer {
         }
         return new String[]{winners.toString(), losers.toString()};
     }
+    public static void scoreRolls(ArrayList<Bot> bots, Player player, Roll roll){
+        HashMap<Integer,Integer> scores = new HashMap<>();
+        scores.put(player.getNum(),0);
+        for (Card card:player.PlayedCards){
+            if (card.getName().equals(roll.getName())){
+                Roll roll1 =(Roll) card;
+                scores.put(player.getNum(),scores.get(player.getNum())+roll1.getRollValue());
+            }
+        }
+        for (Bot bot:bots){
+            scores.put(bot.getNum(),0);
+            for (Card card:bot.PlayedCards){
+                if (card.getName().equals(roll.getName())){
+                    Roll roll1 =(Roll) card;
+                    scores.put(bot.getNum(),scores.get(bot.getNum())+roll1.getRollValue());
+                }
+            }
+        }
+        String[] winners = calculateWinners(scores,roll);
+        for (int i = winners[0].length(); i> 0;i--){
+            //assuming the player is always number 1
+            if (winners[0].charAt(i-1) == 1){
+                player.addPoints(roll.getPoints());
+            } else {
+                for (Bot bot:bots){
+                    if (bot.getNum() == winners[0].charAt(i-1)){
+                        bot.addPoints(roll.getPoints());
+                    }
+                }
+            }
+        }
+        for (int i = winners[1].length(); i> 0;i--){
+            //assuming the player is always number 1
+            if (winners[1].charAt(i-1) == 1){
+                player.addPoints(roll.getSecondPoints());
+            } else {
+                for (Bot bot:bots){
+                    if (bot.getNum() == winners[1].charAt(i-1)){
+                        bot.addPoints(roll.getSecondPoints());
+                    }
+                }
+            }
+        }
+    }
+    public static void scoreEdamame(ArrayList<Bot> bots,Player player){
+        for (Card card:player.PlayedCards){
+            if (card.getName().equals("edamame")){
+                player.addPoints(EdamameCount);
+                System.out.println(EdamameCount);
+            }
+        }
+        for (Bot bot:bots){
+            for (Card card:bot.PlayedCards){
+                if (card.getName().equals("edamame")){
+                    bot.addPoints(EdamameCount);
+                }
+            }
+        }
+    }
+
 }

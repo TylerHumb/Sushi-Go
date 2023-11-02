@@ -19,8 +19,8 @@ public class Deck {
     }
 
     public ArrayList<Card> GeneratePossible(){
-        PossibleCards.add(new Roll("maki roll",0,6,3,0));
-        PossibleCards.add(new Roll("temaki",1,4,0,-4));
+        PossibleCards.add(new Roll("maki roll",0,6,3));
+        PossibleCards.add(new Roll("temaki",1,4,-4));
         PossibleCards.add(new Appetiser("dumpling"));
         PossibleCards.add(new Appetiser("edamame"));
         PossibleCards.add(new Appetiser("eel",2,7,3));
@@ -36,8 +36,8 @@ public class Deck {
     }
     public ArrayList<Card> RollList(){
         ArrayList<Card> rolls = new ArrayList<>();
-        rolls.add(new Roll("maki roll",0,6,3,0));
-        rolls.add(new Roll("temaki",1,4,0,-4));
+        rolls.add(new Roll("maki roll",0,6,3));
+        rolls.add(new Roll("temaki",1,4,-4));
         return rolls;
     }
     public ArrayList<Card> appetiserList(){
@@ -108,9 +108,9 @@ public class Deck {
         }
     }
     private void AddMaki(Roll roll){
-        Roll maki1 = new Roll("maki roll",1,6,3,0);
+        Roll maki1 = new Roll("maki roll",1,6,3);
         addcardtoused(maki1,4);
-        Roll maki2 = new Roll("maki roll",2,6,3,0);
+        Roll maki2 = new Roll("maki roll",2,6,3);
         addcardtoused(maki2,5);
         roll.setRollValue(3);
         addcardtoused(roll,3);

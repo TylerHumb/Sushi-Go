@@ -55,31 +55,52 @@ class ScorerTest {
     }
 // very annoying to test, but here we go, yes i know this test is long but whatever
     @Test
-    void scoreRolls() {
-        Roll maki = new Roll("maki roll",0,6,3,0);
+    void calculatewinners() {
+        Roll maki = new Roll("maki roll",0,6,3);
         HashMap<Integer,Integer> playerscores = new HashMap<>();
         playerscores.put(1,1);
         playerscores.put(2,1);
         playerscores.put(3,1);
         playerscores.put(4,2);
         playerscores.put(5,2);
-        String[] result = Scorer.scoreRolls(playerscores,maki);
+        String[] result = Scorer.calculateWinners(playerscores,maki);
         assertEquals("45",result[0]);
         assertEquals("123",result[1]);
         playerscores.clear();
         playerscores.put(1,1);
         playerscores.put(2,2);
         playerscores.put(3,3);
-        result = Scorer.scoreRolls(playerscores,maki);
+        result = Scorer.calculateWinners(playerscores,maki);
         assertEquals("3",result[0]);
         assertEquals("2",result[1]);
-        Roll temaki = new Roll("temaki",1,4,0,-4);
+        Roll temaki = new Roll("temaki",1,4,-4);
         playerscores.clear();
         playerscores.put(1,1);
         playerscores.put(2,2);
         playerscores.put(3,3);
-        result = Scorer.scoreRolls(playerscores,temaki);
+        result = Scorer.calculateWinners(playerscores,temaki);
         assertEquals("3",result[0]);
         assertEquals("1",result[1]);
+    }
+
+    @Test
+    void fullScore(){
+        Appetiser tofu = new Appetiser("tofu");
+        Nigiri nigiri = new Nigiri("squid nigiri",3);
+        Special tea = new Special("tea");
+        Appetiser tempura = new Appetiser("tempura",2,5);
+        Player player = new Player(1);
+        player.addcardtoplayed(tofu);
+        player.addcardtoplayed(tofu);
+        player.addcardtoplayed(nigiri);
+        player.addcardtoplayed(tea);
+        player.addcardtoplayed(tempura);
+        player.addcardtoplayed(tempura);
+        player.addPoints(Scorer.nonFinalScore(player.PlayedCards));
+        assertEquals(16,player.Points);
+    }
+    @Test
+    void scorerolls(){
+
     }
 }

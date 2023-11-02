@@ -44,6 +44,18 @@ public class Menu {
             hands.remove(0);
         }
         playOutCards();
+        player.addPoints(Scorer.nonFinalScore(player.PlayedCards));
+        for (Bot bot:bots){
+            bot.addPoints(Scorer.nonFinalScore(bot.PlayedCards));
+        }
+        Scorer.scoreRolls(bots,player,roll);
+        if (appetiser1.getName().equals("edamame")||appetiser2.getName().equals("edamame")||appetiser3.getName().equals("edamame")){
+            Scorer.scoreEdamame(bots,player);
+        }
+        System.out.println("Player score: "+ player.getscore());
+        for (Bot bot:bots){
+            System.out.println("bot "+ bot.getNum() + " score: "+ bot.getscore());
+        }
     }
 
 
