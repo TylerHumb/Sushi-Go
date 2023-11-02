@@ -11,6 +11,9 @@ public class Nigiri extends Card {
     public void activateWasabi(){
         wasabi = true;
     }
+    public void deactivateWasabi(){
+        wasabi = false;
+    }
     public boolean isWasabi(){
         return wasabi;
     }

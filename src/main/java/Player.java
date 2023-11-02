@@ -1,6 +1,6 @@
 import Cards.Card;
+import Cards.Dessert;
 import Cards.Nigiri;
-import Cards.Special;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -59,5 +59,8 @@ public class Player {
         for (Map.Entry<Card,Integer> cards: Scorer.generatehashmap(PlayedCards).entrySet()){
             System.out.println(cards.getKey().getName() + " amount: "+cards.getValue());
         }
+    }
+    public void clearplayedcards(){
+        PlayedCards.removeIf(card -> !(card instanceof Dessert));
     }
 }

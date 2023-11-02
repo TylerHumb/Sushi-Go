@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Deck {
-    ArrayList<Card> RollbackDeck;
+    ArrayList<Card> RollbackDeck = new ArrayList<>();
     ArrayList<Card> PossibleCards;
     ArrayList<Card> UsedCards;
     int PlayerCount;
@@ -89,10 +89,10 @@ public class Deck {
         addcardtoused(special2,3);
         //doesnt add desserts as they are added on a round by round basis, but it is assigned here
         GamesDessert = dessert;
+        // a backup deck so that we can remove cards from the deck  and return it back after the round
+        RollbackDeck.addAll(UsedCards);
     }
     public ArrayList<ArrayList<Card>> Round1(){
-        // a backup deck so that we can remove cards from the deck  and return it back after the round
-        RollbackDeck = UsedCards;
         if (PlayerCount > 5){
             addcardtoused(GamesDessert, 7);
             RemainingDessert = 7;
@@ -102,11 +102,34 @@ public class Deck {
         }
         return DealHands();
     }
+    public ArrayList<ArrayList<Card>> Round2(){
+        UsedCards.clear();
+        UsedCards.addAll(RollbackDeck);
+        if (PlayerCount > 5){
+            addcardtoused(GamesDessert, 5 + RemainingDessert);
+            RemainingDessert += 5;
+        } else{
+            addcardtoused(GamesDessert, 3 + RemainingDessert);
+            RemainingDessert += 3;
+        }
+        return DealHands();
+    }
+    public ArrayList<ArrayList<Card>> Round3(){
+        UsedCards.clear();
+        UsedCards.addAll(RollbackDeck);
+        if (PlayerCount > 5){
+            addcardtoused(GamesDessert, 3 + RemainingDessert);
+        } else{
+            addcardtoused(GamesDessert, 2 + RemainingDessert);
+        }
+        return DealHands();
+    }
     private void addcardtoused(Card card,int amount){
         for (int i = amount;i > 0;i--){
             UsedCards.add(card);
         }
     }
+
     private void AddMaki(Roll roll){
         Roll maki1 = new Roll("maki roll",1,6,3);
         addcardtoused(maki1,4);

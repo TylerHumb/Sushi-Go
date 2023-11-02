@@ -51,6 +51,7 @@ public class Scorer {
     //TODO Check if this works for wasabi
     public static int scoreNigiri(Nigiri card, Integer amount){
         if (card.isWasabi()){
+            card.deactivateWasabi();
             return card.getPoints()*3;
         }
         return card.getPoints()*amount;

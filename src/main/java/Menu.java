@@ -44,6 +44,41 @@ public class Menu {
             hands.remove(0);
         }
         playOutCards();
+        preformScoring();
+        round2();
+    }
+    public void round2(){
+        ArrayList<ArrayList<Card>> hands = deck.Round2();
+        player.Assignhand(hands.get(0));
+        hands.remove(0);
+        for (Bot bot:bots){
+            bot.Assignhand(hands.get(0));
+            hands.remove(0);
+        }
+        playOutCards();
+        preformScoring();
+        round3();
+    }
+    public void round3(){
+        ArrayList<ArrayList<Card>> hands = deck.Round3();
+        player.Assignhand(hands.get(0));
+        hands.remove(0);
+        for (Bot bot:bots){
+            bot.Assignhand(hands.get(0));
+            hands.remove(0);
+        }
+        playOutCards();
+        player.addPoints(Scorer.finalScoring(player.PlayedCards));
+        for (Bot bot:bots){
+            bot.addPoints(Scorer.finalScoring(bot.PlayedCards));
+        }
+        Scorer.scoreRolls(bots,player,roll);
+        if (appetiser1.getName().equals("edamame")||appetiser2.getName().equals("edamame")||appetiser3.getName().equals("edamame")){
+            Scorer.scoreEdamame(bots,player);
+        }
+        leaderboard();
+    }
+    public void preformScoring(){
         player.addPoints(Scorer.nonFinalScore(player.PlayedCards));
         for (Bot bot:bots){
             bot.addPoints(Scorer.nonFinalScore(bot.PlayedCards));
@@ -58,8 +93,8 @@ public class Menu {
         for (Bot bot:bots){
             System.out.println("bot "+ bot.getNum() + " score: "+ bot.getscore());
         }
+        clearplayed();
     }
-
 
     public int playerInputCollector(int maxnum,int minnum, Scanner scnr){
         int response;
@@ -197,6 +232,42 @@ public class Menu {
                     }
                 }
             }
+        }
+    }
+
+    public void leaderboard(){
+        int first = 0;
+        int second = 0;
+        int third = 0;
+        first = player.getscore();
+        for (Bot bot: bots){
+            if (bot.getscore() > first){
+                third = second;
+                second = first;
+                first = bot.getscore();
+            }
+        }
+        leaderboardmessage(first,"First");
+        leaderboardmessage(second,"Second");
+        leaderboardmessage(third,"Third");
+    }
+    public void leaderboardmessage(int score,String place){
+        StringBuilder winners = new StringBuilder();
+        if (player.getscore() == score){
+            winners.append(player.getNum());
+        }
+        for (Bot bot:bots){
+            if (player.getscore() == score){
+                winners.append(player.getNum());
+            }
+        }
+        System.out.println("Player/s "+ winners + " have come " + place);
+    }
+
+    public void clearplayed(){
+        player.clearplayedcards();
+        for (Bot bot: bots){
+            bot.clearplayedcards();
         }
     }
 }
