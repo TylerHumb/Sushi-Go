@@ -3,6 +3,7 @@ import Cards.Nigiri;
 import Cards.Special;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class Player {
     int Points;
@@ -53,5 +54,10 @@ public class Player {
     //only for testing purposes
     public void addcardtoplayed(Card card){
         PlayedCards.add(card);
+    }
+    public void printplayedcards(){
+        for (Map.Entry<Card,Integer> cards: Scorer.generatehashmap(PlayedCards).entrySet()){
+            System.out.println(cards.getKey().getName() + " amount: "+cards.getValue());
+        }
     }
 }

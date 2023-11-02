@@ -1,6 +1,7 @@
 import Cards.*;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -101,6 +102,51 @@ class ScorerTest {
     }
     @Test
     void scorerolls(){
-
+        Roll temaki = new Roll("temaki",1,4,-4);
+        Bot bot1 = new Bot(2);
+        Player player = new Player(1);
+        Bot bot2 = new Bot(3);
+        player.addcardtoplayed(temaki);
+        player.addcardtoplayed(temaki);
+        player.addcardtoplayed(temaki);
+        bot1.addcardtoplayed(temaki);
+        bot2.addcardtoplayed(temaki);
+        ArrayList<Bot> bots = new ArrayList<>();
+        bots.add(bot1);
+        bots.add(bot2);
+        Scorer.scoreRolls(bots,player,temaki);
+        assertAll(
+                () -> assertEquals(-4,bot1.getscore()),
+                () -> assertEquals(-4,bot2.getscore()),
+                () -> assertEquals(4,player.getscore())
+        );
+    }
+    @Test
+    void Fullscore(){
+        Roll temaki = new Roll("temaki",1,4,-4);
+        Bot bot1 = new Bot(2);
+        Player player = new Player(1);
+        Bot bot2 = new Bot(3);
+        player.addcardtoplayed(temaki);
+        player.addcardtoplayed(temaki);
+        player.addcardtoplayed(temaki);
+        bot1.addcardtoplayed(temaki);
+        bot2.addcardtoplayed(temaki);
+        Appetiser tofu = new Appetiser("tofu");
+        Nigiri nigiri = new Nigiri("squid nigiri",3);
+        Special tea = new Special("tea");
+        Appetiser tempura = new Appetiser("tempura",2,5);
+        player.addcardtoplayed(tofu);
+        player.addcardtoplayed(tofu);
+        player.addcardtoplayed(nigiri);
+        player.addcardtoplayed(tea);
+        player.addcardtoplayed(tempura);
+        player.addcardtoplayed(tempura);
+        ArrayList<Bot> bots = new ArrayList<>();
+        bots.add(bot1);
+        bots.add(bot2);
+        player.addPoints(Scorer.nonFinalScore(player.PlayedCards));
+        Scorer.scoreRolls(bots,player,temaki);
+        assertEquals(21,player.getscore());
     }
 }

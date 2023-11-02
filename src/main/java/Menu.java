@@ -48,10 +48,12 @@ public class Menu {
         for (Bot bot:bots){
             bot.addPoints(Scorer.nonFinalScore(bot.PlayedCards));
         }
-        Scorer.scoreRolls(bots,player,roll);
+        String[] rollwinners = Scorer.scoreRolls(bots,player,roll);
         if (appetiser1.getName().equals("edamame")||appetiser2.getName().equals("edamame")||appetiser3.getName().equals("edamame")){
             Scorer.scoreEdamame(bots,player);
         }
+        System.out.println("Player/s "+rollwinners[0] + " had the most rolls! earning "+roll.getPoints() +" each!");
+        System.out.println("Player/s "+rollwinners[1] + " had the least rolls! earning "+roll.getSecondPoints() +" each!");
         System.out.println("Player score: "+ player.getscore());
         for (Bot bot:bots){
             System.out.println("bot "+ bot.getNum() + " score: "+ bot.getscore());
@@ -133,9 +135,7 @@ public class Menu {
             }
             int playeroption = printforplaying(player.getHand()) -1;
             if (playeroption == -1){
-                for (Map.Entry<Card,Integer> cards: Scorer.generatehashmap(player.PlayedCards).entrySet()){
-                    System.out.println(cards.getKey().getName() + " amount: "+cards.getValue());
-                }
+                player.printplayedcards();
                 playeroption = playerInputCollector(player.getHand().size() +1,1,scan) -1;
             }
             Card playedcard = player.PlayCard(playeroption);

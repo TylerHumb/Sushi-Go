@@ -145,7 +145,7 @@ public class Scorer {
         }
         return new String[]{winners.toString(), losers.toString()};
     }
-    public static void scoreRolls(ArrayList<Bot> bots, Player player, Roll roll){
+    public static String[] scoreRolls(ArrayList<Bot> bots, Player player, Roll roll){
         HashMap<Integer,Integer> scores = new HashMap<>();
         scores.put(player.getNum(),0);
         for (Card card:player.PlayedCards){
@@ -165,29 +165,30 @@ public class Scorer {
         }
         String[] winners = calculateWinners(scores,roll);
         for (int i = winners[0].length(); i> 0;i--){
-            //assuming the player is always number 1
-            if (winners[0].charAt(i-1) == 1){
+            String character =String.valueOf(winners[0].charAt(i-1));
+            if ((character.equals(String.valueOf(player.getNum())))){
                 player.addPoints(roll.getPoints());
             } else {
                 for (Bot bot:bots){
-                    if (bot.getNum() == winners[0].charAt(i-1)){
+                    if (String.valueOf(bot.getNum()).equals(character)){
                         bot.addPoints(roll.getPoints());
                     }
                 }
             }
         }
         for (int i = winners[1].length(); i> 0;i--){
-            //assuming the player is always number 1
-            if (winners[1].charAt(i-1) == 1){
+            String character =String.valueOf(winners[1].charAt(i-1));
+            if ((character.equals(String.valueOf(player.getNum())))){
                 player.addPoints(roll.getSecondPoints());
             } else {
                 for (Bot bot:bots){
-                    if (bot.getNum() == winners[1].charAt(i-1)){
+                    if (String.valueOf(bot.getNum()).equals(character)){
                         bot.addPoints(roll.getSecondPoints());
                     }
                 }
             }
         }
+        return winners;
     }
     public static void scoreEdamame(ArrayList<Bot> bots,Player player){
         for (Card card:player.PlayedCards){
